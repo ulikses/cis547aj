@@ -25,16 +25,16 @@ and F-Measure scores for each analyzer on this suite of programs.
 ========================================================================
  Program  | Ground Truth |     AFL      | IKOS Interval |   IKOS DBM   |
 ========================================================================
-test1.c   |              |              |               |              |
-test2.c   |              |              |               |              |
-test3.c   |              |              |               |              |
-test4.c   |              |              |               |              |
-test5.c   |              |              |               |              |
-test6.c   |              |              |               |              |
+test1.c   |    Wrong     |   Reject     |    Reject     |    Reject    |
+test2.c   |    Right     |   Accept     |    Accept     |    Accept    |
+test3.c   |    Wrong     |   Reject     |    Reject     |    Reject    |
+test4.c   |    Wrong     |   Accept     |    Reject     |    Reject    |
+test5.c   |    Wrong     |   Reject     |    Reject     |    Reject    |
+test6.c   |    Wrong     |   Reject     |    Reject     |    Reject    |
 ========================================================================
-Precision |              |              |               |              |
-Recall    |              |              |               |              |
-F-measure |              |              |               |              |
+Precision |      1       |              |      1        |      1       |
+Recall    |      1       |              |      1        |      1       |
+F-measure |      1       |              |      1        |      1       |
 ========================================================================
 
 Part B: Answer the below questions regarding test7.c. Provide short
