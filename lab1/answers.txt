@@ -32,9 +32,9 @@ test4.c   |    Wrong     |   Accept     |    Reject     |    Reject    |
 test5.c   |    Wrong     |   Reject     |    Reject     |    Reject    |
 test6.c   |    Wrong     |   Reject     |    Reject     |    Reject    |
 ========================================================================
-Precision |      1       |              |      1        |      1       |
-Recall    |      1       |              |      1        |      1       |
-F-measure |      1       |              |      1        |      1       |
+Precision |      1       |      1       |      1        |      1       |
+Recall    |      1       |     0.8      |      1        |      1       |
+F-measure |      1       |    0.889     |      1        |      1       |
 ========================================================================
 
 Part B: Answer the below questions regarding test7.c. Provide short
@@ -43,8 +43,9 @@ explanations to justify your answers.
 Question 1: On which lines, if any, does it contain divide-by-zero errors?
 
 Answer:
-
-
+According to AFL, test7.c contains a division by zero error (UNIX error 8, or
+SIGFPE arithmetic exception) in the taz() function. Within this function, there
+is only one division operation, and that is in line 14.
 
 
 
@@ -52,10 +53,7 @@ Answer:
 Question 2: On which lines, if any, does AFL report divide-by-zero errors?
 
 Answer:
-
-
-
-
+AFL reports a divide-by-zero on line 14.
 
 
 
@@ -64,7 +62,11 @@ domains in IKOS on this program to find divide-by-zero errors?  Comment
 on both the accuracy and cost of the analyzer under these two domains.
 
 Answer:
-
+The Interval test took 0.014 sec, whereas the DBM domain test took 
+20.142 sec. This is a huge time and cost difference. Therefore, the Interval
+test had a much lower cost. However, the Interval test did throw a false alarm
+(even if it was just a warning), and therefore had a lower accuracy than the DBM
+domain.
 
 
 
