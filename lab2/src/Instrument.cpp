@@ -23,6 +23,7 @@ void instrumentCoverage(Module *M, Instruction &I) {
 
 bool Instrument::runOnFunction(Function &F) {
   /* Add you code here */
+  outs() << "hi mom\n";
   return true;
 }
 
