@@ -9,13 +9,23 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <time.h>
-
+#include <bits/stdc++.h>
 #include <cstring>
 #include <cstdio>
 
 #include "Utils.h"
 
+std::string eraseRandChar(std::string Origin);
+std::string inject(std::string Origin);
+std::string addRandChar(std::string Origin);
+std::string replaceRandChar(std::string Origin);
+std::string swapChars(std::string Origin);
+std::string reverse(std::string Origin);
+std::string doubleUp(std::string Origin);
+std::string inject(std::string Origin);
+
 std::vector<std::string> SeedInputs;
+std::unordered_set<std::string> CovInputs;
 
 /************************************************/
 /* 		Implement your select input algorithm 	*/
@@ -25,7 +35,7 @@ std::string selectInput() {
   /*
   * select the mutant string here. You can select this from the SeedInputs vector, where you can store all mutants 
   */
-  return SeedInputs.back();
+  return SeedInputs[rand() % SeedInputs.size()];
 }
 
 /*********************************************/
@@ -40,7 +50,51 @@ const char *alpha = "abcdefghijklmnopqrstuvwxyz\n\0";
  * get creative with your mutation strategy
  */
 std::string mutate(std::string Origin) {
+  int ver = rand() % 7;
+  switch(ver) {
+    case 0: return eraseRandChar(Origin);
+    case 1: return addRandChar(Origin);
+    case 2: return replaceRandChar(Origin);
+    case 3: return swapChars(Origin);
+    case 4: return reverse(Origin);
+    case 5: return doubleUp(Origin);
+    case 6: return inject(Origin);
+  }
+}
+
+std::string eraseRandChar(std::string Origin) {
+  int pos = rand() % Origin.length();
+  return Origin.erase(pos, 1);
+}
+std::string inject(std::string Origin) {
+  return Origin.insert(4, 1, 10);
+}
+std::string addRandChar(std::string Origin) {
+  int pos = rand() % Origin.length();
+  char letter = rand() % 256;
+  return Origin.insert(pos, 1, letter);
+}
+std::string replaceRandChar(std::string Origin) {
+  int pos = rand() % Origin.length();
+  char letter = rand() % 256;
+  Origin.erase(pos, 1);
+  return Origin.insert(pos, 1, letter);
+}
+std::string swapChars(std::string Origin) {
+  std::string Dest(Origin);
+  int pos = rand() % Dest.length();
+  std::swap(Dest[pos], Dest[pos++]);
+  return Dest;
+}
+std::string reverse(std::string Origin) {
+  int length = Origin.length();
+  for(int i = 0; i < length / 2; i++) {
+    std::swap(Origin[i], Origin[length - i]);
+  }
   return Origin;
+}
+std::string doubleUp(std::string Origin) {
+  return Origin.append(Origin);
 }
 
 /*********************************************/
@@ -53,6 +107,18 @@ void feedBack(std::string &Target, std::string &Mutated) {
   * to determine if the mutated string is interesting
   * Keep track of the mutant string and its corresponding coverage
   */
+  std::string covPath = Target + ".cov";
+  std::ifstream infile(covPath);
+  std::string line;
+
+  while(std::getline(infile, line)) {
+    int before = CovInputs.size();
+    CovInputs.emplace(line);
+    int after = CovInputs.size();
+    if (before != after || rand() % 20) {
+      SeedInputs.push_back(Mutated);
+    }
+  }
 }
 
 /*****************************************************************/
